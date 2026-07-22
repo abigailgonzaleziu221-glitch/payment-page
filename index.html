@@ -6,246 +6,84 @@
 <title>Payment Confirmed – Marklo Digital Agency</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     background: #f4f6f8;
     min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     padding: 1rem;
   }
-
   .backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0);
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    padding: 0;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0);
+    display: flex; align-items: flex-end; justify-content: center;
     z-index: 100;
     animation: fadeBackdrop 0.4s ease forwards;
   }
-
   @keyframes fadeBackdrop {
     from { background: rgba(0,0,0,0); }
     to   { background: rgba(0,0,0,0.55); }
   }
-
   .modal {
-    background: #ffffff;
-    border-radius: 22px 22px 0 0;
-    width: 100%;
-    max-width: 480px;
-    overflow: hidden;
+    background: #fff; border-radius: 22px 22px 0 0;
+    width: 100%; max-width: 480px; overflow: hidden;
     box-shadow: 0 -8px 40px rgba(0,0,0,0.18);
     transform: translateY(100%);
-    animation: slideUp 0.5s cubic-bezier(0.32, 0.72, 0, 1) 0.15s forwards;
+    animation: slideUp 0.5s cubic-bezier(0.32,0.72,0,1) 0.15s forwards;
   }
-
   @keyframes slideUp {
     from { transform: translateY(100%); }
     to   { transform: translateY(0); }
   }
-
-  .drag-handle {
-    width: 36px;
-    height: 4px;
-    background: #e0e0e0;
-    border-radius: 2px;
-    margin: 10px auto 0;
-  }
-
+  .drag-handle { width:36px;height:4px;background:#e0e0e0;border-radius:2px;margin:10px auto 0; }
   .modal-header {
-    background: linear-gradient(135deg, #0d9488, #0f766e);
-    padding: 1.75rem 1.5rem 1.5rem;
-    text-align: center;
+    background: linear-gradient(135deg,#0d9488,#0f766e);
+    padding: 1.75rem 1.5rem 1.5rem; text-align: center;
   }
-
   .check-ring {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    border: 2.5px solid rgba(255,255,255,0.4);
-    background: rgba(255,255,255,0.15);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 1rem;
-    animation: popCheck 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.6s both;
+    width:60px;height:60px;border-radius:50%;
+    border:2.5px solid rgba(255,255,255,0.4);
+    background:rgba(255,255,255,0.15);
+    display:flex;align-items:center;justify-content:center;
+    margin:0 auto 1rem;
+    animation:popCheck 0.4s cubic-bezier(0.34,1.56,0.64,1) 0.6s both;
   }
-
   @keyframes popCheck {
-    from { transform: scale(0); opacity: 0; }
-    to   { transform: scale(1); opacity: 1; }
+    from { transform:scale(0);opacity:0; }
+    to   { transform:scale(1);opacity:1; }
   }
-
-  .check-ring svg {
-    width: 28px;
-    height: 28px;
-    stroke: #ffffff;
-    fill: none;
-    stroke-width: 2.5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-
-  .modal-header h1 {
-    color: #ffffff;
-    font-size: 19px;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    margin-bottom: 0.3rem;
-    opacity: 0;
-    animation: fadeUp 0.4s ease 0.75s forwards;
-  }
-
-  .modal-header p {
-    color: rgba(255,255,255,0.72);
-    font-size: 13px;
-    opacity: 0;
-    animation: fadeUp 0.4s ease 0.85s forwards;
-  }
-
+  .check-ring svg { width:28px;height:28px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round; }
+  .modal-header h1 { color:#fff;font-size:19px;font-weight:600;letter-spacing:-0.02em;margin-bottom:0.3rem;opacity:0;animation:fadeUp 0.4s ease 0.75s forwards; }
+  .modal-header p  { color:rgba(255,255,255,0.72);font-size:13px;opacity:0;animation:fadeUp 0.4s ease 0.85s forwards; }
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(6px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from { opacity:0;transform:translateY(6px); }
+    to   { opacity:1;transform:translateY(0); }
   }
-
-  .amount-block {
-    padding: 1.4rem 1.5rem;
-    text-align: center;
-    border-bottom: 1px solid #f0f0f0;
-    opacity: 0;
-    animation: fadeUp 0.4s ease 0.95s forwards;
+  .amount-block { padding:1.4rem 1.5rem;text-align:center;border-bottom:1px solid #f0f0f0;opacity:0;animation:fadeUp 0.4s ease 0.95s forwards; }
+  .amount-label { font-size:11px;color:#888;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.3rem; }
+  .amount-value { font-size:34px;font-weight:700;color:#111;letter-spacing:-0.04em; }
+  .detail-rows  { padding:0.5rem 1.5rem 1rem;opacity:0;animation:fadeUp 0.4s ease 1.05s forwards; }
+  .row { display:flex;justify-content:space-between;align-items:center;padding:0.65rem 0;border-bottom:1px solid #f5f5f5; }
+  .row:last-child { border-bottom:none; }
+  .row-label { font-size:13px;color:#777; }
+  .row-value { font-size:13px;font-weight:500;color:#111;text-align:right;max-width:62%; }
+  .mono { font-family:'SF Mono','Fira Code',monospace;font-size:11.5px;background:#f7f7f7;border:1px solid #e8e8e8;border-radius:5px;padding:3px 8px;color:#333; }
+  .badge-paid { background:#dcfce7;color:#166534;border-radius:20px;padding:3px 10px;font-size:12px;font-weight:600; }
+  .modal-footer { background:#f9f9f9;border-top:1px solid #eee;padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;opacity:0;animation:fadeUp 0.4s ease 1.15s forwards; }
+  .biz-row { display:flex;align-items:center;gap:0.65rem; }
+  .biz-icon { width:34px;height:34px;border-radius:8px;background:#0f766e;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff; }
+  .biz-name { font-size:13px;font-weight:600;color:#111;line-height:1.3; }
+  .biz-url  { font-size:11.5px;color:#999; }
+  .download-btn { font-size:12px;color:#0f766e;background:none;border:1px solid #0f766e;border-radius:6px;padding:5px 12px;cursor:pointer;font-weight:500; }
+  .download-btn:hover { background:#f0fdf4; }
+  .sound-btn {
+    position:fixed;bottom:100px;right:16px;
+    background:#0f766e;color:#fff;border:none;
+    border-radius:50px;padding:10px 18px;
+    font-size:13px;font-weight:600;cursor:pointer;
+    z-index:200;box-shadow:0 4px 12px rgba(0,0,0,0.2);
   }
-
-  .amount-label {
-    font-size: 11px;
-    color: #888;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    margin-bottom: 0.3rem;
-  }
-
-  .amount-value {
-    font-size: 34px;
-    font-weight: 700;
-    color: #111;
-    letter-spacing: -0.04em;
-  }
-
-  .detail-rows {
-    padding: 0.5rem 1.5rem 1rem;
-    opacity: 0;
-    animation: fadeUp 0.4s ease 1.05s forwards;
-  }
-
-  .row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.65rem 0;
-    border-bottom: 1px solid #f5f5f5;
-  }
-
-  .row:last-child { border-bottom: none; }
-
-  .row-label {
-    font-size: 13px;
-    color: #777;
-  }
-
-  .row-value {
-    font-size: 13px;
-    font-weight: 500;
-    color: #111;
-    text-align: right;
-    max-width: 62%;
-  }
-
-  .mono {
-    font-family: 'SF Mono', 'Fira Code', monospace;
-    font-size: 11.5px;
-    background: #f7f7f7;
-    border: 1px solid #e8e8e8;
-    border-radius: 5px;
-    padding: 3px 8px;
-    color: #333;
-  }
-
-  .badge-paid {
-    background: #dcfce7;
-    color: #166534;
-    border-radius: 20px;
-    padding: 3px 10px;
-    font-size: 12px;
-    font-weight: 600;
-  }
-
-  .modal-footer {
-    background: #f9f9f9;
-    border-top: 1px solid #eeeeee;
-    padding: 1rem 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    opacity: 0;
-    animation: fadeUp 0.4s ease 1.15s forwards;
-  }
-
-  .biz-row {
-    display: flex;
-    align-items: center;
-    gap: 0.65rem;
-  }
-
-  .biz-icon {
-    width: 34px;
-    height: 34px;
-    border-radius: 8px;
-    background: #0f766e;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 11px;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: 0.02em;
-  }
-
-  .biz-name {
-    font-size: 13px;
-    font-weight: 600;
-    color: #111;
-    line-height: 1.3;
-  }
-
-  .biz-url {
-    font-size: 11.5px;
-    color: #999;
-  }
-
-  .download-btn {
-    font-size: 12px;
-    color: #0f766e;
-    background: none;
-    border: 1px solid #0f766e;
-    border-radius: 6px;
-    padding: 5px 12px;
-    cursor: pointer;
-    font-weight: 500;
-  }
-
-  .download-btn:hover { background: #f0fdf4; }
-
-  .bg-page {
-    text-align: center;
-    color: #999;
-    font-size: 14px;
-  }
+  .bg-page { text-align:center;color:#999;font-size:14px; }
 </style>
 </head>
 <body>
@@ -255,7 +93,6 @@
 <div class="backdrop">
   <div class="modal">
     <div class="drag-handle"></div>
-
     <div class="modal-header">
       <div class="check-ring">
         <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
@@ -263,12 +100,10 @@
       <h1>Payment confirmed</h1>
       <p id="pay-datetime">22 July 2026 · 03:41 PM IST</p>
     </div>
-
     <div class="amount-block">
       <div class="amount-label">Amount paid</div>
       <div class="amount-value" id="amount">₹12,000</div>
     </div>
-
     <div class="detail-rows">
       <div class="row">
         <span class="row-label">Invoice ID</span>
@@ -295,7 +130,6 @@
         <span class="badge-paid">Paid</span>
       </div>
     </div>
-
     <div class="modal-footer">
       <div class="biz-row">
         <div class="biz-icon">MD</div>
@@ -309,36 +143,49 @@
   </div>
 </div>
 
+<button class="sound-btn" id="soundBtn" onclick="toggleSound()">🔊 Tap to hear</button>
+
 <script>
-  // Success chime using Web Audio API - no external file needed
-  function playSuccessSound() {
-    try {
-      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  let speaking = false;
+  let loopTimer = null;
 
-      function playNote(freq, startTime, duration, vol) {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, startTime);
-        gain.gain.setValueAtTime(0, startTime);
-        gain.gain.linearRampToValueAtTime(vol, startTime + 0.02);
-        gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
-        osc.start(startTime);
-        osc.stop(startTime + duration);
+  function sayGoodLuck() {
+    if (!speaking) return;
+    const msg = new SpeechSynthesisUtterance("Good luck! Good luck!");
+    msg.rate  = 0.95;
+    msg.pitch = 1.1;
+    msg.volume = 1;
+    msg.onend = function() {
+      if (speaking) {
+        loopTimer = setTimeout(sayGoodLuck, 800);
       }
-
-      const now = ctx.currentTime + 0.65;
-      playNote(523, now,        0.3, 0.3);  // C5
-      playNote(659, now + 0.12, 0.3, 0.3);  // E5
-      playNote(784, now + 0.24, 0.5, 0.35); // G5
-      playNote(1047,now + 0.38, 0.6, 0.25); // C6
-    } catch(e) {}
+    };
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(msg);
   }
 
-  window.addEventListener('load', playSuccessSound);
-</script>
+  function toggleSound() {
+    const btn = document.getElementById('soundBtn');
+    if (!speaking) {
+      speaking = true;
+      btn.textContent = '🔇 Stop';
+      sayGoodLuck();
+    } else {
+      speaking = false;
+      clearTimeout(loopTimer);
+      window.speechSynthesis.cancel();
+      btn.textContent = '🔊 Tap to hear';
+    }
+  }
 
+  // Auto-start on load (needs user interaction on mobile)
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      speaking = true;
+      document.getElementById('soundBtn').textContent = '🔇 Stop';
+      sayGoodLuck();
+    }, 900);
+  });
+</script>
 </body>
 </html>
