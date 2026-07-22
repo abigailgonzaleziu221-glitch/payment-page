@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Payment Confirmed – Marklo Digital Agency</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #f4f6f8;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+
+  /* ── Backdrop overlay ── */
+  .backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    z-index: 100;
+  }
+
+  /* ── Modal card ── */
+  .modal {
+    background: #ffffff;
+    border-radius: 18px;
+    width: 100%;
+    max-width: 420px;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.22);
+    animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.88) translateY(16px); }
+    to   { opacity: 1; transform: scale(1)    translateY(0); }
+  }
+
+  /* ── Green header ── */
+  .modal-header {
+    background: linear-gradient(135deg, #0d9488, #0f766e);
+    padding: 2rem 1.5rem 1.75rem;
+    text-align: center;
+  }
+
+  .check-ring {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2.5px solid rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+  }
+
+  .check-ring svg {
+    width: 28px;
+    height: 28px;
+    stroke: #ffffff;
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .modal-header h1 {
+    color: #ffffff;
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.3rem;
+  }
+
+  .modal-header p {
+    color: rgba(255,255,255,0.72);
+    font-size: 13px;
+  }
+
+  /* ── Amount block ── */
+  .amount-block {
+    padding: 1.4rem 1.5rem;
+    text-align: center;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .amount-label {
+    font-size: 11px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.3rem;
+  }
+
+  .amount-value {
+    font-size: 34px;
+    font-weight: 700;
+    color: #111;
+    letter-spacing: -0.04em;
+  }
+
+  /* ── Detail rows ── */
+  .detail-rows {
+    padding: 0.5rem 1.5rem 1rem;
+  }
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.65rem 0;
+    border-bottom: 1px solid #f5f5f5;
+  }
+
+  .row:last-child { border-bottom: none; }
+
+  .row-label {
+    font-size: 13px;
+    color: #777;
+  }
+
+  .row-value {
+    font-size: 13px;
+    font-weight: 500;
+    color: #111;
+    text-align: right;
+    max-width: 62%;
+  }
+
+  .mono {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 11.5px;
+    background: #f7f7f7;
+    border: 1px solid #e8e8e8;
+    border-radius: 5px;
+    padding: 3px 8px;
+    color: #333;
+  }
+
+  .badge-paid {
+    background: #dcfce7;
+    color: #166534;
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* ── Business footer ── */
+  .modal-footer {
+    background: #f9f9f9;
+    border-top: 1px solid #eeeeee;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .biz-row {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .biz-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: #0f766e;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.02em;
+  }
+
+  .biz-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #111;
+    line-height: 1.3;
+  }
+
+  .biz-url {
+    font-size: 11.5px;
+    color: #999;
+  }
+
+  .download-btn {
+    font-size: 12px;
+    color: #0f766e;
+    background: none;
+    border: 1px solid #0f766e;
+    border-radius: 6px;
+    padding: 5px 12px;
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  .download-btn:hover { background: #f0fdf4; }
+
+  /* ── Background page (visible behind modal) ── */
+  .bg-page {
+    text-align: center;
+    color: #999;
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+
+<!-- Background hint -->
+<div class="bg-page">Marklo Digital Agency · Payment Portal</div>
+
+<!-- Overlay popup -->
+<div class="backdrop">
+  <div class="modal">
+
+    <!-- Header -->
+    <div class="modal-header">
+      <div class="check-ring">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h1>Payment confirmed</h1>
+      <p id="pay-datetime">22 July 2026 · 03:41 PM IST</p>
+    </div>
+
+    <!-- Amount -->
+    <div class="amount-block">
+      <div class="amount-label">Amount paid</div>
+      <div class="amount-value" id="amount">₹12,000</div>
+    </div>
+
+    <!-- Details -->
+    <div class="detail-rows">
+      <div class="row">
+        <span class="row-label">Invoice ID</span>
+        <span class="mono" id="invoice-id">INV-2026-0042</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Transaction ID</span>
+        <span class="mono" id="txn-id">TXN-MKL-9X7K2M</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Service</span>
+        <span class="row-value" id="service">Meta Ads Management</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Client</span>
+        <span class="row-value" id="client">Client Name</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Payment method</span>
+        <span class="row-value" id="method">UPI / Bank Transfer</span>
+      </div>
+      <div class="row">
+        <span class="row-label">Status</span>
+        <span class="badge-paid">Paid</span>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="modal-footer">
+      <div class="biz-row">
+        <div class="biz-icon">MD</div>
+        <div>
+          <div class="biz-name">Marklo Digital Agency</div>
+          <div class="biz-url">azimkhan.in</div>
+        </div>
+      </div>
+      <button class="download-btn" onclick="window.print()">Save PDF</button>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
