@@ -1,191 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Payment Confirmed – Marklo Digital Agency</title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: #f4f6f8;
-    min-height: 100vh;
-    display: flex; align-items: center; justify-content: center;
-    padding: 1rem;
-  }
-  .backdrop {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0);
-    display: flex; align-items: flex-end; justify-content: center;
-    z-index: 100;
-    animation: fadeBackdrop 0.4s ease forwards;
-  }
-  @keyframes fadeBackdrop {
-    from { background: rgba(0,0,0,0); }
-    to   { background: rgba(0,0,0,0.55); }
-  }
-  .modal {
-    background: #fff; border-radius: 22px 22px 0 0;
-    width: 100%; max-width: 480px; overflow: hidden;
-    box-shadow: 0 -8px 40px rgba(0,0,0,0.18);
-    transform: translateY(100%);
-    animation: slideUp 0.5s cubic-bezier(0.32,0.72,0,1) 0.15s forwards;
-  }
-  @keyframes slideUp {
-    from { transform: translateY(100%); }
-    to   { transform: translateY(0); }
-  }
-  .drag-handle { width:36px;height:4px;background:#e0e0e0;border-radius:2px;margin:10px auto 0; }
-  .modal-header {
-    background: linear-gradient(135deg,#0d9488,#0f766e);
-    padding: 1.75rem 1.5rem 1.5rem; text-align: center;
-  }
-  .check-ring {
-    width:60px;height:60px;border-radius:50%;
-    border:2.5px solid rgba(255,255,255,0.4);
-    background:rgba(255,255,255,0.15);
-    display:flex;align-items:center;justify-content:center;
-    margin:0 auto 1rem;
-    animation:popCheck 0.4s cubic-bezier(0.34,1.56,0.64,1) 0.6s both;
-  }
-  @keyframes popCheck {
-    from { transform:scale(0);opacity:0; }
-    to   { transform:scale(1);opacity:1; }
-  }
-  .check-ring svg { width:28px;height:28px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round; }
-  .modal-header h1 { color:#fff;font-size:19px;font-weight:600;letter-spacing:-0.02em;margin-bottom:0.3rem;opacity:0;animation:fadeUp 0.4s ease 0.75s forwards; }
-  .modal-header p  { color:rgba(255,255,255,0.72);font-size:13px;opacity:0;animation:fadeUp 0.4s ease 0.85s forwards; }
-  @keyframes fadeUp {
-    from { opacity:0;transform:translateY(6px); }
-    to   { opacity:1;transform:translateY(0); }
-  }
-  .amount-block { padding:1.4rem 1.5rem;text-align:center;border-bottom:1px solid #f0f0f0;opacity:0;animation:fadeUp 0.4s ease 0.95s forwards; }
-  .amount-label { font-size:11px;color:#888;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.3rem; }
-  .amount-value { font-size:34px;font-weight:700;color:#111;letter-spacing:-0.04em; }
-  .detail-rows  { padding:0.5rem 1.5rem 1rem;opacity:0;animation:fadeUp 0.4s ease 1.05s forwards; }
-  .row { display:flex;justify-content:space-between;align-items:center;padding:0.65rem 0;border-bottom:1px solid #f5f5f5; }
-  .row:last-child { border-bottom:none; }
-  .row-label { font-size:13px;color:#777; }
-  .row-value { font-size:13px;font-weight:500;color:#111;text-align:right;max-width:62%; }
-  .mono { font-family:'SF Mono','Fira Code',monospace;font-size:11.5px;background:#f7f7f7;border:1px solid #e8e8e8;border-radius:5px;padding:3px 8px;color:#333; }
-  .badge-paid { background:#dcfce7;color:#166534;border-radius:20px;padding:3px 10px;font-size:12px;font-weight:600; }
-  .modal-footer { background:#f9f9f9;border-top:1px solid #eee;padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;opacity:0;animation:fadeUp 0.4s ease 1.15s forwards; }
-  .biz-row { display:flex;align-items:center;gap:0.65rem; }
-  .biz-icon { width:34px;height:34px;border-radius:8px;background:#0f766e;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff; }
-  .biz-name { font-size:13px;font-weight:600;color:#111;line-height:1.3; }
-  .biz-url  { font-size:11.5px;color:#999; }
-  .download-btn { font-size:12px;color:#0f766e;background:none;border:1px solid #0f766e;border-radius:6px;padding:5px 12px;cursor:pointer;font-weight:500; }
-  .download-btn:hover { background:#f0fdf4; }
-  .sound-btn {
-    position:fixed;bottom:100px;right:16px;
-    background:#0f766e;color:#fff;border:none;
-    border-radius:50px;padding:10px 18px;
-    font-size:13px;font-weight:600;cursor:pointer;
-    z-index:200;box-shadow:0 4px 12px rgba(0,0,0,0.2);
-  }
-  .bg-page { text-align:center;color:#999;font-size:14px; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geek Squad Invoice</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', Arial, sans-serif; }
+        body { background-color: #f0f2f5; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 20px; }
+        
+        /* Button to open popup */
+        .open-btn { background: #0046be; color: white; border: none; padding: 15px 30px; font-size: 18px; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        
+        /* Overlay */
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
+        
+        /* Popup Box */
+        .popup { background: white; width: 100%; max-width: 450px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); overflow: hidden; animation: slideIn 0.3s ease-out; }
+        @keyframes slideIn { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        
+        /* Header */
+        .popup-header { background: #0046be; color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .header-text h2 { font-size: 20px; font-weight: 700; }
+        .header-text p { font-size: 13px; opacity: 0.9; }
+        .close-btn { background: none; border: none; color: white; font-size: 28px; cursor: pointer; line-height: 1; }
+        
+        /* Body */
+        .popup-body { padding: 30px; }
+        .status-badge { display: inline-block; background: #e6f4ea; color: #137333; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-bottom: 20px; }
+        
+        .invoice-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #eee; font-size: 15px; color: #333; }
+        .invoice-row span:first-child { color: #555; }
+        .invoice-row span:last-child { font-weight: 600; }
+        
+        .total-section { background: #f8f9fa; margin: 20px -30px -30px -30px; padding: 20px 30px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; }
+        .total-label { font-size: 18px; font-weight: 700; color: #333; }
+        .total-amount { font-size: 28px; font-weight: 800; color: #0046be; }
+        
+        /* Support Box */
+        .support-box { margin-top: 25px; text-align: center; background: #eef4ff; padding: 15px; border-radius: 8px; border: 1px solid #cce0ff; }
+        .support-box p { font-size: 14px; color: #333; margin-bottom: 5px; }
+        .phone-number { font-size: 20px !important; font-weight: 700 !important; color: #0046be !important; text-decoration: none; display: block; }
+        
+        .print-btn { width: 100%; background: #0046be; color: white; border: none; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 20px; }
+        .print-btn:hover { background: #003a9e; }
+
+    </style>
 </head>
 <body>
 
-<div class="bg-page">Marklo Digital Agency · Payment Portal</div>
+    <button class="open-btn" onclick="openPopup()">View Geek Squad Invoice</button>
 
-<div class="backdrop">
-  <div class="modal">
-    <div class="drag-handle"></div>
-    <div class="modal-header">
-      <div class="check-ring">
-        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-      </div>
-      <h1>Payment confirmed</h1>
-      <p id="pay-datetime">22 July 2026 · 03:41 PM IST</p>
-    </div>
-    <div class="amount-block">
-      <div class="amount-label">Amount paid</div>
-      <div class="amount-value" id="amount">₹12,000</div>
-    </div>
-    <div class="detail-rows">
-      <div class="row">
-        <span class="row-label">Invoice ID</span>
-        <span class="mono" id="invoice-id">INV-2026-0042</span>
-      </div>
-      <div class="row">
-        <span class="row-label">Transaction ID</span>
-        <span class="mono" id="txn-id">TXN-MKL-9X7K2M</span>
-      </div>
-      <div class="row">
-        <span class="row-label">Service</span>
-        <span class="row-value" id="service">Meta Ads Management</span>
-      </div>
-      <div class="row">
-        <span class="row-label">Client</span>
-        <span class="row-value" id="client">Client Name</span>
-      </div>
-      <div class="row">
-        <span class="row-label">Payment method</span>
-        <span class="row-value" id="method">UPI / Bank Transfer</span>
-      </div>
-      <div class="row">
-        <span class="row-label">Status</span>
-        <span class="badge-paid">Paid</span>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <div class="biz-row">
-        <div class="biz-icon">MD</div>
-        <div>
-          <div class="biz-name">Marklo Digital Agency</div>
-          <div class="biz-url">azimkhan.in</div>
+    <!-- Invoice Popup -->
+    <div class="overlay" id="invoiceOverlay">
+        <div class="popup">
+            <div class="popup-header">
+                <div class="header-text">
+                    <h2>Geek Squad Invoice</h2>
+                    <p>Invoice #GS-2023-987654</p>
+                </div>
+                <button class="close-btn" onclick="closePopup()">&times;</button>
+            </div>
+            
+            <div class="popup-body">
+                <div class="status-badge">PAID / COMPLETED</div>
+                
+                <div class="invoice-row">
+                    <span>Date:</span>
+                    <span>October 24, 2023</span>
+                </div>
+                <div class="invoice-row">
+                    <span>Customer:</span>
+                    <span>Valued Customer</span>
+                </div>
+                <div class="invoice-row">
+                    <span>Service:</span>
+                    <span>Tech Support & Protection Plan</span>
+                </div>
+                <div class="invoice-row">
+                    <span>Duration:</span>
+                    <span>1 Year Subscription</span>
+                </div>
+
+                <div class="total-section">
+                    <span class="total-label">Total Amount:</span>
+                    <span class="total-amount">$765.00</span>
+                </div>
+
+                <div class="support-box">
+                    <p>Questions about this invoice? Call our support team:</p>
+                    <a href="tel:+90762676509" class="phone-number">📞 +90 762676509</a>
+                </div>
+
+                <button class="print-btn" onclick="window.print()">Print Receipt</button>
+            </div>
         </div>
-      </div>
-      <button class="download-btn" onclick="window.print()">Save PDF</button>
     </div>
-  </div>
-</div>
 
-<button class="sound-btn" id="soundBtn" onclick="toggleSound()">🔊 Tap to hear</button>
+    <script>
+        let isPlaying = false;
+        let keepAliveInterval;
 
-<script>
-  let speaking = false;
-  let loopTimer = null;
+        // --- POPUP CONTROLS ---
+        function openPopup() {
+            document.getElementById("invoiceOverlay").style.display = "flex";
+            startSound(); // Start the voice when popup opens
+        }
 
-  function sayGoodLuck() {
-    if (!speaking) return;
-    const msg = new SpeechSynthesisUtterance("Good luck! Good luck!");
-    msg.rate  = 0.95;
-    msg.pitch = 1.1;
-    msg.volume = 1;
-    msg.onend = function() {
-      if (speaking) {
-        loopTimer = setTimeout(sayGoodLuck, 800);
-      }
-    };
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(msg);
-  }
+        function closePopup() {
+            document.getElementById("invoiceOverlay").style.display = "none";
+            stopSound(); // Stop the voice when popup X is clicked
+        }
 
-  function toggleSound() {
-    const btn = document.getElementById('soundBtn');
-    if (!speaking) {
-      speaking = true;
-      btn.textContent = '🔇 Stop';
-      sayGoodLuck();
-    } else {
-      speaking = false;
-      clearTimeout(loopTimer);
-      window.speechSynthesis.cancel();
-      btn.textContent = '🔊 Tap to hear';
-    }
-  }
+        // --- SOUND EFFECT CONTROLS ---
+        function startSound() {
+            if (isPlaying) return; 
+            isPlaying = true;
 
-  // Auto-start on load (needs user interaction on mobile)
-  window.addEventListener('load', function() {
-    setTimeout(function() {
-      speaking = true;
-      document.getElementById('soundBtn').textContent = '🔇 Stop';
-      sayGoodLuck();
-    }, 900);
-  });
-</script>
+            // Chrome bug fix: pause and resume every 5 seconds so it doesn't cut off
+            keepAliveInterval = setInterval(function() {
+                if (!isPlaying) return;
+                if (window.speechSynthesis.speaking) {
+                    window.speechSynthesis.pause();
+                    window.speechSynthesis.resume();
+                }
+            }, 5000);
+
+            function speak() {
+                if (!isPlaying) return;
+
+                // Text changed to exactly what you requested
+                const text = "Good luck, good luck.";
+                const utterance = new SpeechSynthesisUtterance(text);
+                
+                utterance.rate = 1.0; 
+                utterance.pitch = 1;
+
+                // When the voice finishes, say it again
+                utterance.onend = function() {
+                    if (isPlaying) {
+                        speak(); // Repeat
+                    }
+                };
+
+                window.speechSynthesis.speak(utterance);
+            }
+
+            speak(); // Start the first time
+        }
+
+        function stopSound() {
+            isPlaying = false; // Stop the loop
+            clearInterval(keepAliveInterval); // Stop the bug fix timer
+            window.speechSynthesis.cancel(); // Stop any current speaking immediately
+        }
+    </script>
+
 </body>
 </html>
